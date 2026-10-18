@@ -20,3 +20,7 @@ __pycache__/
 .ipynb_checkpoints/
 .system_generated/
 *.tmp
+
+# Ignore generated output files in generator directory (only track scripts & assets)
+presentation_generator/*.pdf
+presentation_generator/*.pptx

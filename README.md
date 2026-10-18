@@ -21,6 +21,7 @@ Repositori ini memuat implementasi proyek akhir Applied Data Science Capstone da
 13. **SpaceX-Machine-Learning-Prediction-Part-5-v1.ipynb**: Pipeline klasifikasi machine learning (StandardScaler, train-test split 80:20, validasi silang 10-lipatan, penyetelan GridSearchCV pada Logistic Regression, SVM, Decision Tree, dan KNN).
 14. **Data Science Capstone Project Report.pdf**: Laporan presentasi teknis eksekutif 18 slide berformat PDF yang memenuhi seluruh kriteria rubrik evaluasi Coursera.
 15. **Data Science Capstone Project Report.pptx**: Salindia presentasi Microsoft PowerPoint rasio layar lebar 16:9 yang dapat disunting bebas.
+16. **presentation_generator/**: Folder skrip Python mandiri untuk mengotomatisasi pembuatan ulang presentasi PowerPoint (`generate_presentation_pptx.py`), dokumen PDF (`generate_presentation_pdf.py`), serta seluruh grafik visualisasi (`generate_charts.py`).
 
 ---
 
