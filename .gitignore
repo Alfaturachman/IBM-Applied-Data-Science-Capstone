@@ -1,0 +1,15 @@
+# Ignore all markdown notes and quizzes except root README.md
+*.md
+!README.md
+
+# Ignore MS Word documents and temporary office locks
+*.docx
+~$*
+Final Project - Data Science Capstone.pdf
+
+# Ignore Python cache and checkpoints
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.system_generated/
+*.tmp
