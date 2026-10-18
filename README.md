@@ -1,74 +1,55 @@
 # IBM Applied Data Science Capstone: SpaceX Falcon 9 Landing Prediction
 
-Repositori ini memuat implementasi proyek akhir Applied Data Science Capstone dari IBM Data Science Professional Certificate oleh alfaturachman. Proyek ini mengintegrasikan seluruh siklus ilmu data end-to-end untuk memprediksi keberhasilan pendaratan pendorong roket tahap pertama (first stage booster) SpaceX Falcon 9, yang merupakan faktor kunci di balik keunggulan efisiensi biaya peluncuran roket komersial (62 juta dolar AS vs 165+ juta dolar AS dari kompetitor). Repositori ini memuat seluruh berkas notebook Jupyter yang telah dieksekusi lengkap, skrip aplikasi dasbor interaktif, basis data relasional SQLite, serta laporan presentasi final dalam format PDF dan PowerPoint.
+Repositori ini memuat implementasi proyek akhir Applied Data Science Capstone dari IBM Data Science Professional Certificate oleh alfaturachman. Proyek ini mengintegrasikan seluruh siklus ilmu data end-to-end untuk memprediksi keberhasilan pendaratan pendorong roket tahap pertama (first stage booster) SpaceX Falcon 9, yang merupakan faktor kunci di balik efisiensi biaya peluncuran roket komersial (62 juta dolar AS vs 165+ juta dolar AS dari kompetitor). Repositori ini memuat seluruh berkas notebook Jupyter yang telah dieksekusi lengkap, skrip aplikasi dasbor interaktif, basis data relasional SQLite, serta laporan presentasi final dalam format PDF dan PowerPoint.
 
 ---
 
-## Bagian 1: Struktur Modul Kursus
+## Bagian 1: Struktur Berkas Repositori
 
-1. **Module 1 - Introduction**: Pengumpulan data peluncuran roket melalui SpaceX REST API, perayapan web (web scraping) Wikipedia dengan BeautifulSoup, serta data wrangling dan imputasi nilai kosong.
-2. **Module 2 - Exploratory Data Analysis (EDA)**: Investigasi data relasional menggunakan kueri SQL pada SQLite dan analisis eksplorasi visual data menggunakan Seaborn dan Matplotlib.
-3. **Module 3 - Interactive Visual Analytics and Dashboard**: Analisis geospasial fasilitas peluncuran menggunakan Folium serta pembangunan aplikasi dasbor web interaktif berbasis Plotly Dash.
-4. **Module 4 - Predictive Analysis (Classification)**: Prapemrosesan fitur dengan StandardScaler, validasi silang 10-lipatan, penyetelan hiperparameter GridSearchCV, serta evaluasi komparatif 4 model klasifikasi machine learning.
-5. **Module 5 - Present Your Data-Driven Insights**: Penyusunan laporan presentasi eksekutif 17 slide (PDF dan PPTX) yang memenuhi seluruh 15 kriteria rubrik kelulusan Coursera, serta skrip otomatisasi generator presentasi berbasis Python.
+1. **jupyter-labs-spacex-data-collection-api-v2.ipynb**: Ekstraksi 90 catatan peluncuran melalui SpaceX REST API dan penguraian atribut penunjang.
+2. **jupyter-labs-webscraping.ipynb**: Perayapan web (web scraping) pada tabel HTML Wikipedia menggunakan BeautifulSoup untuk memvalidasi catatan peluncuran historis.
+3. **labs-jupyter-spacex-Data-wrangling-v2.ipynb**: Penanganan nilai kosong massa muatan dengan imputasi nilai rata-rata, rekayasa variabel target biner `Class` (1 = sukses, 0 = gagal), dan pembentukan matriks fitur.
+4. **jupyter-labs-eda-sql-coursera_sqllite.ipynb**: Investigasi relasional SQLite untuk 10 kueri analitik (total muatan NASA, rata-rata muatan sukses, pendaratan pertama, dan ranking pendorong).
+5. **my_data1.db**: Basis data relasional SQLite lokal berisi tabel `SPACEXTBL`.
+6. **jupyter-labs-eda-dataviz-v2.ipynb**: Analisis visualisasi data menggunakan Seaborn dan Matplotlib untuk menguji korelasi muatan, orbit, dan tren tahunan.
+7. **dataset_part_3.csv**: Matriks masukan hasil One-Hot Encoding berdimensi 80 fitur numerik.
+8. **lab-jupyter-launch-site-location-v2.ipynb**: Pemetaan geospasial interaktif Folium, penandaan fasilitas, pengelompokan MarkerCluster, dan kalkulasi jarak geodetik Haversine.
+9. **spacex_launch_geo.csv**: Set data koordinat lintang dan bujur fasilitas peluncuran.
+10. **jupyter-labs-spacex-plotly-dash.ipynb**: Notebook pengujian fungsi callback reaktif Plotly Dash.
+11. **spacex_dash_app.py**: Skrip mandiri aplikasi web dasbor interaktif berbasis Plotly Dash dengan kontrol menu tarik-turun dan penggeser rentang muatan.
+12. **spacex_launch_dash.csv**: Set data terstruktur pendukung aplikasi dasbor Plotly Dash.
+13. **SpaceX-Machine-Learning-Prediction-Part-5-v1.ipynb**: Pipeline klasifikasi machine learning (StandardScaler, train-test split 80:20, validasi silang 10-lipatan, penyetelan GridSearchCV pada Logistic Regression, SVM, Decision Tree, dan KNN).
+14. **Data Science Capstone Project Report.pdf**: Laporan presentasi teknis eksekutif 18 slide berformat PDF yang memenuhi seluruh kriteria rubrik evaluasi Coursera.
+15. **Data Science Capstone Project Report.pptx**: Salindia presentasi Microsoft PowerPoint rasio layar lebar 16:9 yang dapat disunting bebas.
 
 ---
 
-## Bagian 2: Rangkuman Eksekutif per Modul
+## Bagian 2: Rangkuman Eksekutif per Tahapan Proyek
 
-### Modul 1: Pengumpulan dan Pembersihan Data (Data Wrangling)
-- **Ekstraksi Data Multi-Sumber:**
-  - Mengambil data 90 catatan peluncuran Falcon 9 historis melalui endpoint SpaceX REST API (`/v4/launches/past`) dan melengkapi atribut pendukung (roket, muatan, landasan, dan inti pendorong).
-  - Melakukan perayapan web (web scraping) pada tabel HTML Wikipedia untuk memvalidasi catatan manifest peluncuran pihak ketiga.
-- **Data Wrangling dan Rekayasa Fitur:**
-  - Menerapkan imputasi nilai rata-rata (mean imputation) untuk menangani nilai kosong pada kolom massa muatan (`PayloadMass`).
-  - Mentransformasikan kolom hasil pendaratan mentah (`Outcome`) menjadi label target biner `Class`: nilai 1 untuk pendaratan sukses dan 0 untuk pendaratan gagal atau tidak dicoba.
-  - Menerapkan One-Hot Encoding pada fitur kategorikal (`Orbit`, `LaunchSite`, `LandingPad`, `Serial`) untuk menghasilkan matriks masukan berdimensi 80 fitur numerik.
+### 1. Pengumpulan dan Pembersihan Data (Data Wrangling)
+- **Ekstraksi Data:** Mengambil 90 rekaman peluncuran roket Falcon 9 dari endpoint REST API SpaceX (`/v4/launches/past`) dan menyelaraskannya dengan data hasil web scraping tabel Wikipedia menggunakan BeautifulSoup.
+- **Wrangling dan Rekayasa Fitur:** Menerapkan imputasi nilai rata-rata pada kolom `PayloadMass` yang kosong; mentransformasikan hasil pendaratan pendorong roket menjadi target biner `Class` (1 untuk pendaratan sukses dan 0 untuk pendaratan gagal/tidak dicoba); menerapkan One-Hot Encoding pada fitur kategorikal (`Orbit`, `LaunchSite`, `LandingPad`, `Serial`) sehingga menghasilkan 80 fitur numerik.
 
-### Modul 2: Eksplorasi Data Berbasis SQL dan Visualisasi Grafis
-- **Investigasi Basis Data Relasional SQLite:**
-  - Membangun basis data SQLite (`my_data1.db`) dan mengeksekusi kueri agregasi SQL untuk mengidentifikasi 4 situs peluncuran unik (`CCAFS LC-40`, `CCAFS SLC-40`, `KSC LC-39A`, `VAFB SLC-4E`).
-  - Menghitung total massa muatan misi NASA (45.596 kg) dan rata-rata massa muatan misi yang berhasil mendarat (5.408 kg).
-  - Menemukan tanggal pendaratan darat pertama yang berhasil (22 Desember 2015 oleh pendorong B1019) serta pendorong pembawa muatan maksimum 15.600 kg untuk konstelasi Starlink.
-- **Analisis Pola Visualisasi Seaborn:**
-  - Menemukan korelasi positif antara nomor penerbangan (`FlightNumber`) dengan tingkat keberhasilan (peluncuran setelah nomor 40 mencatat rasio sukses di atas 80%).
-  - Mengidentifikasi orbit dengan tingkat kesuksesan 100%: `ES-L1`, `GEO`, `HEO`, dan `SSO`, sedangkan orbit `GTO` memiliki tantangan pemulihan tertinggi (tingkat sukses ~52%) akibat beban termal re-entry yang ekstrem.
-  - Membuktikan tren kenaikan kesuksesan tahunan dari 0% pada 2010 menjadi lebih dari 80% pada 2020.
+### 2. Eksplorasi Data Berbasis SQL dan Visualisasi Grafis
+- **Analisis Kueri SQL SQLite:** Mengeksekusi 10 kueri terstruktur pada basis data `my_data1.db`: mengidentifikasi 4 situs peluncuran unik (`CCAFS LC-40`, `CCAFS SLC-40`, `KSC LC-39A`, `VAFB SLC-4E`), menghitung akumulasi muatan misi NASA (45.596 kg), rata-rata muatan sukses (5.408 kg), pendaratan darat sukses pertama pada 22 Desember 2015 oleh pendorong B1019, serta kapasitas muatan maksimum 15.600 kg pada pendorong Block 5.
+- **Visualisasi Seaborn:** Menemukan korelasi positif nomor penerbangan terhadap keberhasilan misi (penerbangan setelah nomor 40 mencatat rasio kesuksesan di atas 80%); orbit ES-L1, GEO, HEO, dan SSO memiliki tingkat kesuksesan 100%, sedangkan orbit GTO mencatat tingkat kesuksesan terendah (~52%) akibat kecepatan re-entry yang sangat tinggi; tren kesuksesan tahunan meningkat pesat dari 0% pada 2010 menjadi lebih dari 80% pada 2020.
 
-### Modul 3: Analitik Visual Interaktif (Folium dan Plotly Dash)
-- **Pemetaan Geospasial dengan Folium:**
-  - Menandai pangkalan peluncuran dengan lingkaran zona keselamatan 1.000 meter dan mengelompokkan catatan peluncuran dengan plugin `MarkerCluster` berkode warna hijau (sukses) dan merah (gagal).
-  - Menghitung jarak geodetik formula Haversine dari pangkalan CCAFS SLC-40 ke objek vital: garis pantai (0,90 km), jalan raya (0,58 km), jalur rel kereta api (1,28 km), dan pusat kota Titusville (23,19 km).
-  - Membuktikan secara empiris bahwa pangkalan sengaja ditempatkan di bibir pantai menghadap samudra untuk keamanan publik, dekat infrastruktur logistik transportasi darat, dan menjaga jarak aman lebih dari 20 km dari pemukiman warga.
-- **Aplikasi Dasbor Web Plotly Dash (`spacex_dash_app.py`):**
-  - Mengembangkan antarmuka interaktif dengan kontrol `dcc.Dropdown` dan `dcc.RangeSlider` serta fungsi callback dinamis.
-  - Membuktikan pangkalan KSC LC-39A sebagai fasilitas tersukses (10 pendaratan sukses, menyumbang 41,7% total sukses, dengan rasio keberhasilan tertinggi 76,92%).
-  - Menemukan rentang muatan paling andal antara 2.000 kg hingga 4.000 kg (keberhasilan 72,7%), rentang paling rawan pada 6.000 kg hingga 8.000 kg (keberhasilan 0%), serta keandalan 100% pada varian Booster Block 5.
+### 3. Analitik Visual Interaktif (Folium dan Plotly Dash)
+- **Peta Geospasial Folium:** Menandai pangkalan peluncuran dengan lingkaran zona keamanan 1.000 meter dan mengelompokkan catatan peluncuran dengan plugin `MarkerCluster` hijau/merah. Menghitung jarak geodetik formula Haversine dari pangkalan CCAFS SLC-40 ke garis pantai (0,90 km), jalan raya (0,58 km), jalur rel kereta api (1,28 km), dan pusat kota Titusville (23,19 km).
+- **Dasbor Web Plotly Dash (`spacex_dash_app.py`):** Pangkalan KSC LC-39A memimpin dengan jumlah sukses terbanyak (10 pendaratan) dan rasio keberhasilan tertinggi (76,92%); rentang muatan paling andal berada pada 2.000 kg hingga 4.000 kg (keberhasilan 72,7%); rentang muatan paling rawan berada pada 6.000 kg hingga 8.000 kg (keberhasilan 0%); Booster Block 5 mencatat keandalan pendaratan sempurna 100%.
 
-### Modul 4: Pemodelan Prediktif Klasifikasi Machine Learning
-- **Pipeline dan Optimasi Hiperparameter:**
-  - Menstandardisasi 80 fitur numerik menggunakan `StandardScaler` ($z = \frac{x - \mu}{\sigma}$) dan membagi data dengan rasio 80:20 (72 sampel latih dan 18 sampel uji independen).
-  - Menerapkan validasi silang 10-lipatan (`cv=10`) dan `GridSearchCV` untuk menyetel 4 algoritma: Logistic Regression, Support Vector Machine (kernel sigmoid optimal), Decision Tree Classifier, dan K-Nearest Neighbors.
-- **Hasil Evaluasi dan Matriks Konfusi:**
-  - Keempat model klasifikasi mencapai akurasi data uji yang identik sebesar 83,33% (15 prediksi tepat dari 18 sampel uji).
-  - Rincian matriks konfusi: 12 True Positives, 3 True Negatives, 3 False Positives, dan 0 False Negatives.
-  - Model Logistic Regression direkomendasikan untuk implementasi produksi karena efisiensi komputasi, interpretabilitas tinggi, dan estimasi probabilitas yang halus.
+### 4. Pemodelan Prediktif Klasifikasi Machine Learning
+- **Pipeline dan Optimasi:** Menstandardisasi matriks 80 fitur numerik dengan `StandardScaler` ($z = \frac{x - \mu}{\sigma}$); mempartisi data latih dan uji secara independen rasio 80:20 (72 sampel latih, 18 sampel uji); menerapkan validasi silang 10-lipatan (`cv=10`) dan `GridSearchCV` untuk menyetel hiperparameter optimal pada 4 algoritma klasifikasi.
+- **Hasil Evaluasi dan Matriks Konfusi:** Keempat model (Logistic Regression, Support Vector Machine dengan kernel sigmoid, Decision Tree, dan K-Nearest Neighbors) mencapai akurasi data uji yang identik sebesar 83,33% (15 prediksi benar dari 18 sampel uji). Matriks konfusi mencatat 12 True Positives, 3 True Negatives, 3 False Positives, dan 0 False Negatives. Logistic Regression direkomendasikan untuk implementasi produksi karena efisiensi komputasi dan kalibrasi probabilitas yang halus.
 
-### Modul 5: Laporan Presentasi dan Wawasan Bisnis Strategis
-- **Laporan Salindia Portofolio Resmi:**
-  - Dokumen presentasi teknis 17 slide yang memenuhi seluruh 15 kriteria rubrik evaluasi Coursera (`Data Science Capstone Project Report.pdf` dan `.pptx`).
-  - Skrip otomatisasi Python mandiri untuk mereproduksi salindia dan grafik secara instan (`generate_presentation_pdf.py` dan `generate_presentation_pptx.py`).
-- **Wawasan Inovatif Bisnis Antariksa:**
-  - Menganalisis dampak finansial asimetris dari kesalahan klasifikasi: ketiadaan False Negative ($FN = 0$) menjamin armada pemulihan laut selalu disiagakan saat roket mendarat selamat, sedangkan False Positive ($FP = 3$) memicu pemborosan biaya mobilisasi kapal nirawak di laut sebesar 200.000 hingga 500.000 dolar AS per misi tanpa aset roket yang dapat dipulihkan.
-  - Memberikan rekomendasi penyeimbangan data menggunakan SMOTE atau penyesuaian bobot kelas (`class_weight='balanced'`) untuk meminimalkan kerugian operasional.
+### 5. Laporan Presentasi dan Wawasan Bisnis Strategis
+- **Salindia Portofolio Resmi:** Menyusun 18 slide presentasi eksekutif (`Data Science Capstone Project Report.pdf` dan `.pptx`) yang secara spesifik memuat tautan langsung ke setiap notebook komputasi, rincian hasil SQL, koordinat Folium, jawaban analitik Dash, serta diagram matriks konfusi.
+- **Wawasan Inovatif Bisnis:** Ketiadaan False Negative ($FN = 0$) memastikan armada pemulihan kapal nirawak di laut selalu disiagakan ketika pendorong berhasil mendarat. Sebaliknya, kesalahan False Positive ($FP = 3$) menimbulkan kerugian finansial sekitar 200.000 hingga 500.000 dolar AS per misi untuk pengerahan kapal laut tanpa roket yang dapat dipulihkan. Penggunaan teknik penyeimbangan kelas seperti SMOTE direkomendasikan untuk pengembangan lanjutan.
 
 ---
 
 ## Bagian 3: Key Takeaways
 
-- **Kelayakan Komersial Prediksi Machine Learning:**
-  - Algoritma pembelajaran mesin mampu memprediksi pemulihan pendorong Falcon 9 dengan akurasi 83,33%, memberikan keunggulan kompetitif bagi entitas kedirgantaraan dalam memperkirakan struktur harga penawaran kontrak peluncuran satelit komersial.
-- **Korelasi Muatan dan Orbit Terhadap Keberhasilan:**
-  - Misi menuju orbit LEO dan SSO dengan muatan 2.000 hingga 4.000 kg memiliki probabilitas pemulihan pendorong yang sangat tinggi, memungkinkan penawaran agresif pada tingkat biaya 62 juta dolar AS. Sebaliknya, misi GTO berat di atas 6.000 kg memiliki risiko kegagalan pemulihan yang tinggi sehingga penawaran harus memperhitungkan biaya roket sekali pakai.
-- **Reproduktifitas Penuh dan Otomatisasi Terpadu:**
-  - Seluruh alur kerja dari penarikan data mentah, pembersihan, eksplorasi SQL, analitik spasial, dasbor interaktif, hingga pembentukan presentasi laporan PDF dikemas secara otomatis dan dapat direproduksi secara utuh melalui repositori ini.
+- **Kelayakan Komersial Prediksi Machine Learning:** Pembelajaran mesin mampu memprediksi keberhasilan pemulihan pendorong Falcon 9 dengan akurasi 83,33%, memungkinkan kompetitor kedirgantaraan memperkirakan struktur biaya marginal SpaceX secara akurat.
+- **Korelasi Muatan dan Orbit:** Misi muatan menengah (2.000 hingga 4.000 kg) menuju orbit LEO/SSO memiliki probabilitas sukses pendaratan tinggi (>72%), sedangkan misi muatan berat di atas 6.000 kg menuju orbit GTO memiliki risiko kehilangan pendorong yang tinggi sehingga penawaran harga harus memperhitungkan biaya roket sekali pakai.
+- **Kesiapan dan Reproduktifitas Penuh:** Seluruh artefak kode komputasi, basis data, dasbor interaktif, serta berkas presentasi PDF/PPTX tersimpan secara rapi dan siap diverifikasi secara publik.
